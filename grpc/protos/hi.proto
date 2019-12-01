@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package hi;
+option go_package="pb3/hi";
+import "google/api/annotations.proto";
+
+message HiReq {
+    string name = 1;
+}
+
+message HiRsp {
+    string message = 1;
+}
+
+service HiService {
+    rpc SayHi(HiReq) returns(HiRsp) {
+        option (google.api.http) = {
+            post: "/api3/hi"
+            body: "*"
+        };
+    }
+}

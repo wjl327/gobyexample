@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package hello_bak;
+option go_package="pb3/hello_bak";
+
+message HelloReq {
+    string name = 1;
+}
+
+message HelloRsp {
+    string message = 1;
+}
+
+service HelloService {
+    rpc SayHello(HelloReq) returns(HelloRsp) {}
+    rpc SayHelloStream(stream HelloReq) returns(stream HelloRsp) {}
+}
