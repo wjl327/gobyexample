@@ -29,15 +29,16 @@ func main() {
 
 	stream, err := client.SayHelloStream(context.Background())
 	stream.Send(&pb.HelloReq{Name: "Jarvis"})
-	stream.CloseSend() //客户端发完数据要关闭!(即发送EOF)!
+	stream.CloseSend() //客户端关闭发送通道，即发送EOF，告诉服务端如果发完数据也可以结束链接。
 
 	for {
 		rsp, err := stream.Recv()
 		if err != nil {
 			if err == io.EOF {
+				log.Println("Client recv server eof.")
 				break
 			}
-			log.Fatal(err)
+			log.Fatalf("Client recv server err: %v", err)
 		}
 		log.Println("Client SayHelloStream Rece rsp: ", rsp.GetMessage())
 	}

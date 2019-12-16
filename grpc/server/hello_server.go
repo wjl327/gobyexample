@@ -4,6 +4,7 @@ import (
 	"context"
 	pb "github.com/wjl327/gobyexample/grpc/pb3/hello"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"io"
 	"log"
 	"net"
@@ -23,6 +24,7 @@ func (s *HelloService) SayHelloStream(stream pb.HelloService_SayHelloStreamServe
 		helloReq, err := stream.Recv()
 		if err != nil {
 			if err == io.EOF {
+				log.Println("[HelloService] Server recv client eof.")
 				return nil
 			}
 			return err
@@ -38,6 +40,9 @@ func (s *HelloService) SayHelloStream(stream pb.HelloService_SayHelloStreamServe
 			}
 		}
 	} //这里for循环，只有当客户端CloseSend()或者客户端进程退出直接断开才会结束。
+
+	//服务端如果主动结束的话，客户端会收到eof。
+	//服务端进程异常关闭，客户端则会收到异常报错。
 	return nil
 }
 
@@ -49,6 +54,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
+	reflection.Register(grpcServer)
 	pb.RegisterHelloServiceServer(grpcServer, new(HelloService))
 	grpcServer.Serve(listener)
 
