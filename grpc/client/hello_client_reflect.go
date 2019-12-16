@@ -16,7 +16,7 @@ func main() {
 }
 
 func CallSayHello() {
-	grpcall.SetProtoSetFiles("/Users/jarviswu/developer/go_workspace/opensource/gobyexample/grpc/client/hello.protoset")
+	grpcall.SetProtoSetFiles("${home}/developer/go_workspace/opensource/gobyexample/grpc/client/hello.protoset")
 	err := grpcall.InitDescSource()
 	if err != nil {
 		panic(err.Error())
@@ -38,7 +38,7 @@ func CallSayHello() {
 }
 
 func CallSayHelloStream() {
-	grpcall.SetProtoSetFiles("/Users/jarviswu/developer/go_workspace/opensource/gobyexample/grpc/client/hello.protoset")
+	grpcall.SetProtoSetFiles("${home}/developer/go_workspace/opensource/gobyexample/grpc/client/hello.protoset")
 	err := grpcall.InitDescSource()
 	if err != nil {
 		panic(err.Error())
